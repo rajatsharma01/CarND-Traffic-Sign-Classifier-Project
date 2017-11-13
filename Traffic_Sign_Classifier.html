@@ -11881,6 +11881,7 @@ div#notebook {
 <span class="n">n_classes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">signmap</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of training examples =&quot;</span><span class="p">,</span> <span class="n">n_train</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of validation examples =&quot;</span><span class="p">,</span> <span class="n">n_validation</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of testing examples =&quot;</span><span class="p">,</span> <span class="n">n_test</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Image data shape =&quot;</span><span class="p">,</span> <span class="n">image_shape</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of classes =&quot;</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">)</span>
@@ -11901,6 +11902,7 @@ div#notebook {
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>Number of training examples = 34799
+Number of validation examples = 4410
 Number of testing examples = 12630
 Image data shape = (32, 32, 3)
 Number of classes = 43
@@ -38328,7 +38330,8 @@ wLgDxhhjjDEWYNwBY4wxxhgLsP8HEpwJpHI/fNEAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><span style="color:indigo"> Finally the model implementation of LeNet. This is essentially same LeNet model as was implemented in LeNet lab, but with following differences: Activation of Layer 1 output is also fed into the fully connected layer as described by Pierre Sermanet and Yann LeCun's [here](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf)</span></p>
+<p><span style="color:indigo"> Finally the model implementation of LeNet. This is essentially same LeNet model as was implemented in LeNet lab, but with following differences: Activation of Layer 1 output is also fed into the fully connected layer as described by Pierre Sermanet and Yann LeCun's [here](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf). Below image shows layer's in the model with depths of convolutions.</span></p>
+<p><img src="./images/MyLeNet.png" alt="LeNet Architecture"></p>
 
 </div>
 </div>
