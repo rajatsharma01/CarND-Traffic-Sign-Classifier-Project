@@ -29,7 +29,7 @@ The goals / steps of this project are the following:
 [image8]: ./examples/placeholder.png "Traffic Sign 5"
 [DistributionBefore]: ./images/DataDistribution.png "Data Distribution Before Augmentation"
 [DistributionAfter]: ./images/DataDistributionAfterAugmentation.png "Data Distribution After Augmentation"
-[Normalize]: ./images/GrayNormalize.png "Normalization'
+[Normalize]: ./images/GrayNormalize.png "Normalization"
 [Augmentations]: ./images/Augmentations.png "Traffic Sign Augmentations"
 
 ## Rubric Points
@@ -49,11 +49,11 @@ You're reading it! and here is a link to my [project code](https://github.com/ra
 I used the pandas library to calculate summary statistics of the traffic
 signs data set:
 
-* The size of training set is ?
-* The size of the validation set is ?
-* The size of test set is ?
-* The shape of a traffic sign image is ?
-* The number of unique classes/labels in the data set is ?
+* The size of training set is 34799
+* The size of the validation set is 4410
+* The size of test set is 12630
+* The shape of a traffic sign image is (32, 32, 3)
+* The number of unique classes/labels in the data set is 43
 
 ####2. Include an exploratory visualization of the dataset.
 
@@ -69,7 +69,7 @@ As a first step, I decided to convert the images to grayscale because grayscale 
 
 Here is an example of a traffic sign images randomly selected from training data: original, after grayscale conversion and normalization.
 
-![Normlize]
+![Normalize]
 
 Data distribution among training images varies by large, which is not good for training Nerual Networks as it may learn to identify traffic with more number of samples with more accuracy. Also adding random noise to original images help NN to learn variations of a traffic sign. I have used following transformations for augmenting images:
 
