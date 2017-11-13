@@ -27,6 +27,10 @@ The goals / steps of this project are the following:
 [image6]: ./examples/placeholder.png "Traffic Sign 3"
 [image7]: ./examples/placeholder.png "Traffic Sign 4"
 [image8]: ./examples/placeholder.png "Traffic Sign 5"
+[DistributionBefore]: ./images/DataDistribution.png "Data Distribution Before Augmentation"
+[DistributionAfter]: ./images/DataDistributionAfterAugmentation.png "Data Distribution After Augmentation"
+[Normalize]: ./images/GrayNormalize.png "Normalization'
+[Augmentations]: ./images/Augmentations.png "Traffic Sign Augmentations"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -55,31 +59,33 @@ signs data set:
 
 Here is an exploratory visualization of the data set. It is a seaborn distplot with kde line showing high variance in different classes of traffic sign data. Note that the distribution looks similar across training, validation and test set.
 
-![alt text][image1]
+![DistributionBefore]
 
 ###Design and Test a Model Architecture
 
 ####1. Describe how you preprocessed the image data. What techniques were chosen and why did you choose these techniques? Consider including images showing the output of each preprocessing technique. Pre-processing refers to techniques such as converting to grayscale, normalization, etc. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, and provide example images of the additional data. Then describe the characteristics of the augmented training set like number of images in the set, number of images for each class, etc.)
 
-As a first step, I decided to convert the images to grayscale because grayscale images tend to increase accuracy for CNN. Also these are compuntationally less expensive to train with grascale images than RGB. I have used tensorflow's tf.image.rgb_to_grayscale function to convert image to grayscale.
+As a first step, I decided to convert the images to grayscale because grayscale images tend to increase accuracy for CNN. Also it is compuntationally less expensive to train with grascale images than RGB. I have used tensorflow's tf.image.rgb_to_grayscale function to convert image to grayscale. To normalize these grayscale images, I have used tensorflow's tf.image.per_image_standardization function. Normalization allows gradient descent to achieve global minimum at a fater rate as largely varying input (pixel intensity in this case) can start off with a biased configuration of favoring or penalizing some features (pixels) over other.
 
-Here is an example of a traffic sign image before and after grayscaling.
+Here is an example of a traffic sign images randomly selected from training data: original, after grayscale conversion and normalization.
 
+![Normlize]
 
+Data distribution among training images varies by large, which is not good for training Nerual Networks as it may learn to identify traffic with more number of samples with more accuracy. Also adding random noise to original images help NN to learn variations of a traffic sign. I have used following transformations for augmenting images:
 
-![alt text][image2]
+1. Adjust brightness of images with random factor using tf.image.random_brightness
+2. Using projective transformations to rotate, shift and shear images. I have used tensorflow.contrib.image module's compose_transform and transform functions.
+3. Randomly flipping some of these images lef-right (tf.image.random_flip_left_right) or up-down (tf.image.random_flip_up_down)
 
-As a last step, I normalized the image data because ...
+Overall, I tried to use tensorflow during this project to enhance my learning for Tensorflow.
 
-I decided to generate additional data because ... 
+Here is an example of an original image for each class and corresponding augmented images:
 
-To add more data to the the data set, I used the following techniques because ... 
+![Augmentations]
 
-Here is an example of an original image and an augmented image:
+I augmented the original training dataset with above transformed image to have atleast a minium number of samples (1000 while submitting) for each traffic sign class. And this is how data distribution looks like after augmenting training dataset
 
-![alt text][image3]
-
-The difference between the original data set and the augmented data set is the following ... 
+![DistributionAfter]
 
 
 ####2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
