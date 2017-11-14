@@ -31,6 +31,11 @@ The goals / steps of this project are the following:
 [DistributionAfter]: ./images/DataDistributionAfterAugmentation.png "Data Distribution After Augmentation"
 [Normalize]: ./images/GrayNormalize.png "Normalization"
 [Augmentations]: ./images/Augmentations.png "Traffic Sign Augmentations"
+[LeNet]: ./images/MyLeNet.png "LeNet Model"
+[GTSRB]: ./images/GtsrbImages.png "GTSRB Images"
+[GTSRBPredicted]: ./images/GtsrbPredictions.png "GTSRB Predictions"
+[Visualization]: ./images/NetworkVisualization.png "Visualization of Convolution Activation"
+[Accuracy]: ./images/ValidationAccuracy.png "Training Validation Accuracy"
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -90,90 +95,93 @@ I augmented the original training dataset with above transformed image to have a
 
 ####2. Describe what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
-My final model consisted of the following layers:
+Following diagram shows my model implementation of LeNet. Note that its essentially similar to LeNet implimentation done in LeNet lab, with one change though, I am feeding output of First layer subsampling to fully connected Layer ad described by Pierre Sermanet and Yann LeCun's [here](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf). Additional subsampling is done to first layer output to bring subsampling at same level.
 
-| Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
-| RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
-|						|												|
-|						|												|
+![LeNet]
  
-
+I had used VALID sampling with 1x1 stride size for both convolution and pooling. I have used ELU activation instead of RELU to avoid vanishing gradient problem associated with RELU.
 
 ####3. Describe how you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
-To train the model, I used an ....
+I used following hyperparameters to train my model
+BATCH_SIZE = 256
+LEARN_RATE = 0.001
+EPOCHS = 50
+
+To assign initial weights, I have used xavier initialization to set weights which are not too large or not too small. Finally, I have used Adam optimizer for calculating gradient descent.
 
 ####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
+I started with basic implimentation of LeNet without any data augmentations, I was achieving about 0.96 validation accuracy. However very low test accuracy on GRSRB images. Based on suggestions in rubric page, I stared with implementing image augmentation techniques one by one, modified my model to have deeper and more number of hidden layers. However I started hitting limitation of my laptop to train such model as it used to take many hours to train, so I switched back to smaller version of model which is closer to basic LeNet. I also noticed that too many data augmentations were causing validation accuracy to be low, so I decided to stick with 1000 samples per class to generated additional required augmentations. Finally what I achieved seems to be a middle ground solution, not very high accuracy though. I would come back to fix my model to scale well when I have access to GPU based machine.
+
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+* training set accuracy of : Didn't really measure it separately
+* validation set accuracy of 0.946
+* test set accuracy of 0.933
 
-If an iterative approach was chosen:
-* What was the first architecture that was tried and why was it chosen?
-* What were some problems with the initial architecture?
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
+Following graph shows validation accuracy plot for each epoch
 
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
+![Accuracy]
 
 ###Test a Model on New Images
 
 ####1. Choose five German traffic signs found on the web and provide them in the report. For each image, discuss what quality or qualities might be difficult to classify.
 
-Here are five German traffic signs that I found on the web:
+I have downloaded all GTSRB images and I randomly pcik 5 images to test, e.g. these were the images picked in last run:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![GTSRB]
 
-The first image might be difficult to classify because ...
+Some of these images are difficult to classify for lower brightness level e.g. images 2, 3 and 4 in above set, all these images are very dark, however my model could classify them correctly.
 
 ####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
-Here are the results of the prediction:
+In this set, my model could predict all of them in this run, however I have often seen 80% accuracy when testing with larger set of images. Predicted images are marked with a wright vs wrong tick mark, here is the predicted images result:
 
-| Image			        |     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
-
-
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+![GTSRBPredicted]
 
 ####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+The code for making predictions on my final model is located in the 30th cell of the Ipython notebook.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+The top 3 soft max probabilities were (output in 32nd cell of my Ipython notebook)
+
+For the first image, there is strong decision about probabilty for correct prediction.
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| 1.0         			| ClassId: 1 Speed limit (30km/h)  									| 
+| 0.39646107     				| ClassId: 32 End of all speed and passing limits										|
+| 0.14772479					| ClassId: 31	Wild animals crossing										|
 
+For next 4 images, although model could correctly predict signs, but all top 3 probabilities are very close, so even though result is correct, predictions are on the edge.
 
-For the second image ... 
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 0.99999487         			| ClassId: 4 Speed limit (70km/h)  									| 
+| 0.94174737     				| ClassId: 0 Speed limit (20km/h)										|
+| 0.82010305					| ClassId: 24	Road narrows on the right										|
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 1.0         			| ClassId: 7 Speed limit (100km/h)  									| 
+| 0.99650842     				| ClassId: 10 No passing for vehicles over 3.5 metric tons										|
+| 0.9887383 					| ClassId: 42	End of no passing by vehicles over 3.5 metric tons										|
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 0.99999893         			| ClassId: 36 Go straight or right  									| 
+| 0.99999774     				| ClassId: 17 No entry										|
+| 0.99999511					| ClassId: 28	Children crossing										|
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 1.0         			| ClassId: 2 Speed limit (50km/h)  									| 
+| 0.99682069     				| ClassId: 3 Speed limit (60km/h)										|
+| 0.99270004					| ClassId: 14	Stop										|
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
 ####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
 
+Following is the output of first two convolution layers activation for the first GTSRB image: Speed Limit 30 km/h. First convolution output seems to be learning digits of 30 and circle around it.
 
+![Visualization]
