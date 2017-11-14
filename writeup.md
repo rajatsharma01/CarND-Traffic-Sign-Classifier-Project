@@ -115,11 +115,11 @@ To assign initial weights, I have used xavier initialization to set weights whic
 I started with basic implimentation of LeNet without any data augmentations, I was achieving about 0.96 validation accuracy. However very low test accuracy on GRSRB images. Based on suggestions in rubric page, I stared with implementing image augmentation techniques one by one, modified my model to have deeper and more number of hidden layers. However I started hitting limitation of my laptop to train such model as it used to take many hours to train, so I switched back to smaller version of model which is closer to basic LeNet. I also noticed that too many data augmentations were causing validation accuracy to be low, so I decided to stick with 1000 samples per class to generated additional required augmentations. Finally what I achieved seems to be a middle ground solution, not very high accuracy though. I would come back to fix my model to scale well when I have access to GPU based machine.
 
 My final model results were:
-* training set accuracy of : Didn't really measure it separately
-* validation set accuracy of 0.946
+* training set accuracy of : 0.767
+* validation set accuracy of 0.955
 * test set accuracy of 0.933
 
-Following graph shows validation accuracy plot for each epoch
+Following graph shows training and validation accuracy plot for each epoch. Note that my model is observing lower training accuracy than validation accuracy.
 
 ![Accuracy]
 
@@ -131,7 +131,7 @@ I have downloaded all GTSRB images and I randomly pcik 5 images to test, e.g. th
 
 ![GTSRB]
 
-Some of these images are difficult to classify for lower brightness level e.g. images 2, 3 and 4 in above set, all these images are very dark, however my model could classify them correctly.
+Some of these images are difficult to classify for lower brightness level, however my model could classify them correctly.
 
 ####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
@@ -141,47 +141,52 @@ In this set, my model could predict all of them in this run, however I have ofte
 
 ####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 30th cell of the Ipython notebook.
+The code for making predictions on my final model outputs following top 5 predictions with their corresponding probabilities. In this case there is clear difference in probabilities for all images.
 
-The top 3 soft max probabilities were (output in 32nd cell of my Ipython notebook)
+Actual class: Beware of ice/snow
+Top 5 predictions:
+Beware of ice/snow, Probability 0.983
+Right-of-way at the next intersection, Probability 0.017
+Double curve, Probability 0.000
+Children crossing, Probability 0.000
+Pedestrians, Probability 0.000
 
-For the first image, there is strong decision about probabilty for correct prediction.
+Actual class: Speed limit (80km/h)
+Top 5 predictions:
+Speed limit (80km/h), Probability 0.896
+Speed limit (60km/h), Probability 0.087
+Speed limit (100km/h), Probability 0.007
+No passing for vehicles over 3.5 metric tons, Probability 0.005
+Speed limit (120km/h), Probability 0.003
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| 1.0         			| ClassId: 1 Speed limit (30km/h)  									| 
-| 0.39646107     				| ClassId: 32 End of all speed and passing limits										|
-| 0.14772479					| ClassId: 31	Wild animals crossing										|
+Actual class: Priority road
+Top 5 predictions:
+Priority road, Probability 1.000
+Roundabout mandatory, Probability 0.000
+Vehicles over 3.5 metric tons prohibited, Probability 0.000
+End of all speed and passing limits, Probability 0.000
+Slippery road, Probability 0.000
 
-For next 4 images, although model could correctly predict signs, but all top 3 probabilities are very close, so even though result is correct, predictions are on the edge.
+Actual class: Dangerous curve to the left
+Top 5 predictions:
+Dangerous curve to the left, Probability 0.999
+Slippery road, Probability 0.001
+Double curve, Probability 0.000
+Beware of ice/snow, Probability 0.000
+Wild animals crossing, Probability 0.000
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| 0.99999487         			| ClassId: 4 Speed limit (70km/h)  									| 
-| 0.94174737     				| ClassId: 0 Speed limit (20km/h)										|
-| 0.82010305					| ClassId: 24	Road narrows on the right										|
+Actual class: Wild animals crossing
+Top 5 predictions:
+Wild animals crossing, Probability 1.000
+Double curve, Probability 0.000
+Dangerous curve to the left, Probability 0.000
+Slippery road, Probability 0.000
+Pedestrians, Probability 0.000
 
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| 1.0         			| ClassId: 7 Speed limit (100km/h)  									| 
-| 0.99650842     				| ClassId: 10 No passing for vehicles over 3.5 metric tons										|
-| 0.9887383 					| ClassId: 42	End of no passing by vehicles over 3.5 metric tons										|
-
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| 0.99999893         			| ClassId: 36 Go straight or right  									| 
-| 0.99999774     				| ClassId: 17 No entry										|
-| 0.99999511					| ClassId: 28	Children crossing										|
-
-| Probability         	|     Prediction	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| 1.0         			| ClassId: 2 Speed limit (50km/h)  									| 
-| 0.99682069     				| ClassId: 3 Speed limit (60km/h)										|
-| 0.99270004					| ClassId: 14	Stop										|
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
 ####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
 
-Following is the output of first two convolution layers activation for the first GTSRB image: Speed Limit 30 km/h. First convolution output seems to be learning digits of 30 and circle around it.
+Following is the output of first two convolution layers activation for the first GTSRB image: Beware of ice/snow. First convolution output seems to be learning triangular shape of the sign board.
 
 ![Visualization]
